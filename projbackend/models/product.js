@@ -33,8 +33,8 @@ const productSchema = new mongoose.Schema({
     },
     inventory: {
         type: Number,
-        trim: true
-        //required: true
+        trim: true,
+        required: true
     },
     sold: {
         type: Number,

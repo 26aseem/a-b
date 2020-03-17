@@ -7,8 +7,11 @@ const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
-const authRoutes = require('./routes/auth')
-
+//My Routes
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
+const categoryRoutes = require('./routes/category');
+const productRoutes = require('./routes/product');
 
 const mongoose = require('mongoose');
 
@@ -31,6 +34,9 @@ app.use(cors());
 //My Routes
 ///api is added before all 
 app.use("/api",authRoutes);
+app.use("/api",userRoutes);
+app.use("/api",categoryRoutes);
+app.use("/api",productRoutes);
 
 //Port for listening
 const port = process.env.PORT || 8000;
