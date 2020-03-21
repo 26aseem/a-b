@@ -28,8 +28,17 @@ exports.createProduct = (req, res) => {
             });
         }
 
-        let product = req.product;
-        product = _.extend
+        //destructure the fields
+    const { name, description, price, category, inventory } = fields;
+
+    if (!name || !description || !price || !category || !inventory) {
+      return res.status(400).json({
+        error: "Please include all fields"
+      });
+    }
+
+    let product = new Product(fields);
+
 
         //handle file here
         if(file.photo){
@@ -97,22 +106,12 @@ exports.updateProduct = (req, res) => {
                 error: "Issues with the image"
             });
         }
-        //destructure the fields
-        const {name, description, price, category, inventory } = fields;
-        if(
-            !name ||
-            !description ||
-            !price ||
-            !category ||
-            !inventory
-        ){
-            return res.status(400).json({
-                error: "Please include all the fields"
-            });
-        }
+        
+        //Updation code
+        let product = req.product;
+        product = _.extend(product, fields);
 
 
-        let product = new Product(fields);
         if(file.photo){
             if(file.photo.size > 3*1024*1024){
                 return res.status(400).json({
@@ -127,11 +126,64 @@ exports.updateProduct = (req, res) => {
         product.save((err, product) => {
             if(err){
                 res.status(400).json({
-                    error: "Saving image to the Database failed"
+                    error: "Updation of product in Database failed"
                 });
             }
             return res.json(product);
         });
 
     })
+};
+
+
+exports.getAllProducts = (req, res) => {
+    let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+    let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+
+    Product.find()
+    .select("-photo")
+    .populate("category")
+    .sort([[sortBy, "asc"]])
+    .limit(limit)
+    .exec((err, products) => {
+        if(err){
+            return res.status(400).json({
+                error: "No roduct FOUND"
+            });
+        }
+        res.json(products)
+    });
+};
+
+
+exports.getAllUniqueCategories = (req, res) => {
+    Product.distinct("category", {}, (err, category) => {
+        if(err){
+            return res.status(400).json({
+                error: "No category found"
+            });
+        }
+        res.json(category);
+    })
+};
+
+exports.updateStock = (req, res, next) => {
+
+    let myOperations = req.body.order.products.map(prod => {
+        return{
+            updateOne: {
+                filter: {_id: prod._id},
+                update: {$inc: {inventory: -prod.count, sold: +prod.count}}
+            }
+        }
+    })
+
+    Product.bulkzwrite(myOperations, {}, (err,products) => {
+        if(err){
+            return res.status(400).json({
+                error: "Bulk operation failed"
+            })
+        }
+    })
+    next();
 };
