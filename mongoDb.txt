@@ -1,0 +1,64 @@
+MongoDb Commands
+
+1. show dbs : To show all the databases that have atleast one collection
+2. use mydb : To create a new database named mydb, and use it
+3. db : db command is use to check name of the current database
+4. db.mycollection.insert({"name": "Aseem Khullar","rollNo" : "101803469"})
+5. db.dropDatabase() : Drops the Database
+6. db.createCollection("myCollection") : Creates a new collection called myCollection
+7. show collections : Show all the collections in the current database
+8. db.mycollection.drop() : Drop the collection
+9. db.mycollection.find() : To query data
+10. db.mycollection.find().pretty()
+11. db.mycollection.findOne()
+12. or and add queries
+db.mycollection.find(
+{
+"name" : "aseem" , $or : [{"age":"10"},{"size":"45"}]
+}
+)
+
+($gt,$lt,$lte,$gte,$ne)
+
+//Works for only 1 document
+13. db.mycollection.update({},{}) //where clause type and $set
+
+db.mycollection.update({"_id":ObjectId("56sknubrnonkinvkinbikbn655")},
+{$set : {"rollno":"101803"}})
+
+for multiple use
+db.mycollection.update({},{},{multi:true})
+
+
+14.//Removal of collection
+db.mycollection.remove(
+{
+"_id":"ObjectId(654641rvnvbtnt5660)"
+}
+
+15. projections
+db.mycollection.find({condition},"batch":1,"_id":0)
+)
+
+16.db.mycollection.find().limit(4)
+
+17 db.mycollection.find().skip(2)  //skips first 2 documents
+
+18 db.mycollection.find().sort({"name":-1}) //desc order
+
+19. db.mycollection.ensureIndex({"student_id": 1}) //create indexed
+
+20.db.mycollection.dropIndex({"student_id": 1}) //drop  index
+
+21 mongodump
+
+22 mongorestore
+
+23. mongodump --db mydb
+
+24 mongorestore --db mydb dump/mydb
+//Path is given
+
+25. mongodump --db school --collection students 
+
+26. mongorestore --db school --collection students dump/school/collections 
