@@ -89,7 +89,7 @@ exports.deleteProduct = (req, res) => {
             });
         }
 
-        res.json({
+        return res.json({
             message: "Deletion was successful"
         });
     });
