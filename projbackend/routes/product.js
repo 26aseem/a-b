@@ -15,6 +15,7 @@ router.param("productId", getProductById);
 router.post("/product/create/:userId", isSignedIn, isAuthenticated, isAdmin, createProduct);
 
 //read route
+
 router.get("/product/:productId", getProduct);
 router.get("/product/photo/:productId", photo);
 

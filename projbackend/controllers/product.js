@@ -5,18 +5,17 @@ const fs = require("fs");  //File System
 
 exports.getProductById = (req, res, next, id) => {
     Product.findById(id)
-    .populate("category")
-    .exec((err, product) => {
-        if(err){
-            return res.status(400).json({
-                error: "Product not found"
-            });
+      .populate("category")
+      .exec((err, product) => {
+        if (err) {
+          return res.status(400).json({
+            error: "Product not found"
+          });
         }
         req.product = product;
-    });
-    next();
-};
-
+        next();
+      });
+  };
 exports.createProduct = (req, res) => {
     let form = new formidable.IncomingForm();
     form.keepExtensions = true;
@@ -67,9 +66,9 @@ exports.createProduct = (req, res) => {
 
 
 exports.getProduct = (req, res) => {
-    req.product.photo = undefined    //So that product loads quickly
-    return res.json(req.product)
-};
+    req.product.photo = undefined;
+    return res.json(req.product);
+  };
 
 //Performance optimization
 exports.photo = (req, res, next) => {
@@ -148,7 +147,7 @@ exports.getAllProducts = (req, res) => {
     .exec((err, products) => {
         if(err){
             return res.status(400).json({
-                error: "No roduct FOUND"
+                error: "No product FOUND"
             });
         }
         res.json(products)

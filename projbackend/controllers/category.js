@@ -9,8 +9,9 @@ exports.getCategoryById = (req, res, next, id) => {
         }
 
         req.category = category;
-        });
+        
     next();
+});
 };
 
 

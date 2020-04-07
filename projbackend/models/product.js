@@ -8,12 +8,6 @@ const productSchema = new mongoose.Schema({
         required: true,
         maxlength: 32
     },
-    productId: {
-        type: String,
-        trim: true,
-        maxlength: 32
-        //required:true,
-    },
     description: {
         type: String,
         trim: true,

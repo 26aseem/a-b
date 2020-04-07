@@ -1,10 +1,10 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Base from "../core/Base"
 import { isAuthenticated } from "../auth/helper/index"
 import {Link} from "react-router-dom";
-import createcategory from "./helper/adminapicall"
+import {updatecategory,getcategory} from "./helper/adminapicall"
 
-export default function AddCategory() {
+export default function UpdateCategory({match}) {
 
     const [name, setName] = useState("")
     const [error, setError] = useState(false)
@@ -23,6 +23,22 @@ export default function AddCategory() {
         </div>
     )
 
+    const preload = categoryId => {
+        console.log(categoryId)
+        getcategory(categoryId).then(data => {
+          if (data.error) {
+            setError(data.error);
+          } else {
+            setName(data.name);
+            }
+          });
+        }
+    
+      useEffect(() => {
+        preload(match.params.categoryId);
+      }, []);    
+      
+
     const handleChange = (event) => {
         setError("");
         setName(event.target.value)
@@ -34,7 +50,7 @@ export default function AddCategory() {
         setSuccess(false)
 
         //backend request fired
-        createcategory(user._id, token, {name})
+        updatecategory(match.params.categoryId,user._id, token, {name})
             .then(data => {
                 if(data.error){
                     setError(data.error)
@@ -49,14 +65,13 @@ export default function AddCategory() {
                 console.log(data.error)
             })
 
-
     };
 
     const successMessage = () => {
         if(success){
             return (
                 <h4 className="text-success">
-                    Category Created
+                    Category Updated
                 </h4>
             )
         }
@@ -77,7 +92,7 @@ export default function AddCategory() {
     const myCategpryForm = () => (
         <form>
             <div className="form-group">
-                <p className="lead"> Enter the Category</p>
+                <p className="lead"> Update the Category</p>
                 <input type="text"
                 className="form-control my-3"
                 onChange={handleChange}
@@ -88,7 +103,7 @@ export default function AddCategory() {
                 />
                 <button 
                 onClick ={onSubmit}
-                className="btn btn-outline-info"> Create Category </button>
+                className="btn btn-outline-info"> Update Category </button>
             </div>
         </form>
     )
@@ -98,8 +113,8 @@ export default function AddCategory() {
 
     return (
         <Base
-        title="Create a Category"
-        description="Add a new Category for new Merchants"
+        title="Update a Category"
+        description="Update a Category"
         className="container bg-info p-4"
         >
             <div className="row bg-white rounded">

@@ -3,8 +3,8 @@ import Navbar from "./Navbar";
 
 const Base= ({
     title = "My Title",
-    description = "My descrition",
-    className = "bg-dark text-white pt-4",
+    description = "My description",
+    className = "bg-dark text-white pt-2",
     children
 }) => {
     return (
