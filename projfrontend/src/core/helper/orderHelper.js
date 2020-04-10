@@ -7,7 +7,7 @@ return fetch(`${API}/order/create/${userId}`,
     headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Beare ${token}`
+        Authorization: `Bearer ${token}`
     },
     body: JSON.stringify({order: orderData})
 })

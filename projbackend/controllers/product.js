@@ -177,12 +177,13 @@ exports.updateStock = (req, res, next) => {
         }
     })
 
-    Product.bulkzwrite(myOperations, {}, (err,products) => {
-        if(err){
-            return res.status(400).json({
-                error: "Bulk operation failed"
-            })
+    Product.bulkWrite(myOperations, {}, (err, products) => {
+        if (err) {
+          return res.status(400).json({
+            error: "Bulk operation failed"
+          });
         }
-    })
-    next();
-};
+        next();
+      });
+    };
+    

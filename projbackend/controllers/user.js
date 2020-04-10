@@ -79,8 +79,8 @@ exports.pushOrderInPurchaseList = (req, res, next) => {
             name: product.name,
             description: product.description ? product.description : "",
             category: product.category,
-            quantity: product.inventory,
-            amount: req.body.order.price,
+            inventory: product.inventory,
+            price: req.body.order.price,
             transaction_id: req.body.order.transaction_id
         });
     });
@@ -96,7 +96,8 @@ User.findOneAndUpdate(
                 error: "Unable to save purchase list"
             });
         }
+        next()
     }
-)
-    next()
+    )
+    
 };
