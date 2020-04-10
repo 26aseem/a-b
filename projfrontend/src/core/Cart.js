@@ -3,6 +3,8 @@ import "../styles.css"
 import Base from "./Base"
 import Card from "./Card"
 import { loadCart } from './helper/cartHelper';
+import PaymentB from './PaymentB';
+
 
 
 export default function Cart() {
@@ -32,7 +34,7 @@ export default function Cart() {
         </div>
     );
     
-    const loadCheckout = () => (
+    const loadCheckout = (products) => (
         <div>
             <h2>
                 This section is for checkout
@@ -46,9 +48,18 @@ export default function Cart() {
         description="Ready to Checkout"
         >
             <div className="row text-center">
-              <div className="col-6"> {loadAllProducts()} </div>
-              <div className="col-6"> {loadCheckout()} </div>
-            </div>
+              <div className="col-6">
+                   {
+                    products.length > 0 
+                    ? loadAllProducts(products) 
+                    : 
+                    (
+                        <h3> No Product in your cart</h3>
+                    )
+                    } 
+              </div>
+              <div className="col-6"> <PaymentB products={products} setReload={setReload}/> </div>
+             </div>
         </Base>
     )
 }

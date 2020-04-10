@@ -77,10 +77,9 @@ exports.pushOrderInPurchaseList = (req, res, next) => {
         purchases.push({
             _id : product._id,
             name: product.name,
-            productId: product.productId,
-            description: product.description,
+            description: product.description ? product.description : "",
             category: product.category,
-            quantity: product.quantity,
+            quantity: product.inventory,
             amount: req.body.order.price,
             transaction_id: req.body.order.transaction_id
         });

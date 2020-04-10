@@ -13,6 +13,8 @@ const userRoutes = require('./routes/user');
 const categoryRoutes = require('./routes/category');
 const productRoutes = require('./routes/product');
 const orderRoutes = require('./routes/order');
+const paymentBRoutes = require('./routes/paymentB');
+
 
 const mongoose = require('mongoose');
 
@@ -39,6 +41,8 @@ app.use("/api",userRoutes);
 app.use("/api",categoryRoutes);
 app.use("/api",productRoutes);
 app.use("/api",orderRoutes);
+app.use("/api",paymentBRoutes);
+
 
 //Port for listening
 const port = process.env.PORT || 8000;
